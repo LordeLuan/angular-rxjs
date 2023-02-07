@@ -1,15 +1,21 @@
+import { Livro, LivrosResultado, Item } from './../models/interfaces';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LivroService {
-  private readonly API = 'https://www.googleapis.com/books/v1/volumes'
-  constructor(private http: HttpClient) { }
+  private readonly API = 'https://www.googleapis.com/books/v1/volumes';
+  constructor(private http: HttpClient) {}
 
-  buscar(valorDigitado: string){
+  buscar(valorDigitado: string): Observable<Item[]> {
     const params = new HttpParams().append('q', valorDigitado);
-    return this.http.get(this.API, { params })
+    return this.http.get<LivrosResultado>(this.API, { params }).pipe(
+      tap((retorno) => console.log('Fluxo no tap: ', retorno)),
+      map((resultado) => resultado.itens), // Retorna só um atributo do objeto que veio na requisição
+      tap((resultadoFinal) => console.log('Fluxo após o map ', resultadoFinal))
+    );
   }
 }

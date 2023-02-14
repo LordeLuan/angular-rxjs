@@ -15,7 +15,6 @@ export class LivroService {
     return this.http.get<LivrosResultado>(this.API, { params }).pipe(
       tap((retorno) => console.log('Fluxo no tap: ', retorno)),
       map((resultado) => resultado.itens), // Retorna só um atributo do objeto que veio na requisição
-      tap((resultadoFinal) => console.log('Fluxo após o map ', resultadoFinal))
     );
   }
 }

@@ -5,7 +5,7 @@ export interface Livro{
     publishedDate?: string;
     description?: string;
     previewLink?: string;
-    thumbnail?: string;
+    thumbnail?: ImageLink;
 }
 
 export interface VolumeInfo{
